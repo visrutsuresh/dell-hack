@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { PatternCanvas } from '../components/PatternCanvas';
 import { ANALYSIS_DATA, type YouthAnalysis } from '../data/analysisData';
+import { useNavBar } from '../context/NavBarContext';
 
 interface DetailViewProps {
   selectedYouthId: string;
@@ -54,9 +55,11 @@ function downloadReport(analysis: YouthAnalysis, youthId: string) {
 
 export function DetailView({ selectedYouthId, onBack, onEscalate }: DetailViewProps) {
   const analysis = ANALYSIS_DATA[selectedYouthId] ?? ANALYSIS_DATA['1'];
+  const { reactiveBar, navVisible } = useNavBar();
+  const topPadding = reactiveBar ? (navVisible ? 'pt-24' : 'pt-0') : 'pt-24';
 
   return (
-    <div className="min-h-screen w-full pt-24 px-6 pb-12 bg-[#0A0A0A]">
+    <div className={`min-h-screen w-full ${topPadding} px-6 pb-12 bg-[#0A0A0A] transition-[padding-top] duration-300 ease-out`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div

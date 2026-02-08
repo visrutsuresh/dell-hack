@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { NavBarProvider } from './context/NavBarContext';
 import { Navigation } from './components/Navigation';
 import { HeroSection } from './pages/HeroSection';
 import { Dashboard } from './pages/Dashboard';
@@ -51,10 +52,11 @@ export function App() {
     }
   };
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white font-sans selection:bg-teal-500/30 selection:text-teal-200">
-      <Navigation currentView={currentView} onChangeView={setCurrentView} />
+    <NavBarProvider>
+      <div className="min-h-screen bg-[#0A0A0A] text-white font-sans selection:bg-teal-500/30 selection:text-teal-200">
+        <Navigation currentView={currentView} onChangeView={setCurrentView} />
 
-      <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait">
         <motion.main
           key={currentView}
           initial={{
@@ -78,6 +80,7 @@ export function App() {
           {renderView()}
         </motion.main>
       </AnimatePresence>
-    </div>);
+    </div>
+    </NavBarProvider>);
 
 }

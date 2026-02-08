@@ -8,6 +8,7 @@ import {
   FileText } from
 'lucide-react';
 import { ANALYSIS_DATA } from '../data/analysisData';
+import { useNavBar } from '../context/NavBarContext';
 
 interface EscalationFlowProps {
   youthId: string;
@@ -16,6 +17,8 @@ interface EscalationFlowProps {
 }
 export function EscalationFlow({ youthId, onComplete, onCancel }: EscalationFlowProps) {
   const analysis = ANALYSIS_DATA[youthId] ?? ANALYSIS_DATA['1'];
+  const { reactiveBar, navVisible } = useNavBar();
+  const topPadding = reactiveBar ? (navVisible ? 'pt-28' : 'pt-0') : 'pt-28';
   const steps = [
   {
     id: 1,
@@ -47,7 +50,7 @@ export function EscalationFlow({ youthId, onComplete, onCancel }: EscalationFlow
   }];
 
   return (
-    <div className="min-h-screen w-full pt-28 px-6 pb-12 bg-[#0A0A0A] flex flex-col items-center">
+    <div className={`min-h-screen w-full ${topPadding} px-6 pb-12 bg-[#0A0A0A] flex flex-col items-center transition-[padding-top] duration-300 ease-out`}>
       <div className="max-w-3xl w-full">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-['Instrument_Serif'] mb-4">

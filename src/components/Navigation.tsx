@@ -6,12 +6,14 @@ import {
   LayoutDashboard,
   ShieldAlert } from
 'lucide-react';
+import { useNavBar } from '../context/NavBarContext';
 type View = 'hero' | 'dashboard' | 'detail' | 'escalation' | 'chat';
 interface NavigationProps {
   currentView: View;
   onChangeView: (view: View) => void;
 }
 export function Navigation({ currentView, onChangeView }: NavigationProps) {
+  const { reactiveBar, navVisible } = useNavBar();
   const navItems = [
   {
     id: 'hero',
@@ -40,7 +42,12 @@ export function Navigation({ currentView, onChangeView }: NavigationProps) {
   }];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#0A0A0A]/80 backdrop-blur-md">
+    <motion.nav
+      className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#0A0A0A]/80 backdrop-blur-md"
+      initial={false}
+      animate={{ y: reactiveBar && !navVisible ? '-100%' : 0 }}
+      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <button
           onClick={() => onChangeView('hero')}
@@ -91,6 +98,6 @@ export function Navigation({ currentView, onChangeView }: NavigationProps) {
           </div>
         </div>
       </div>
-    </nav>);
+    </motion.nav>);
 
 }

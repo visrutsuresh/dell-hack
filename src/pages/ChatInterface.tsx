@@ -2,9 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Send, Paperclip, MoreVertical, Phone } from 'lucide-react';
 import { PatternCanvas } from '../components/PatternCanvas';
+import { useNavBar } from '../context/NavBarContext';
+
 export function ChatInterface() {
+  const { reactiveBar, navVisible } = useNavBar();
+  const topPadding = reactiveBar ? (navVisible ? 'pt-20' : 'pt-0') : 'pt-20';
   return (
-    <div className="min-h-screen w-full pt-20 bg-[#0A0A0A] flex h-screen overflow-hidden">
+    <div className={`min-h-screen w-full ${topPadding} bg-[#0A0A0A] flex h-screen overflow-hidden transition-[padding-top] duration-300 ease-out`}>
       {/* Left Panel - Context & Pattern */}
       <div className="hidden lg:flex w-1/3 border-r border-white/10 flex-col relative">
         <div className="absolute inset-0 z-0 opacity-20">

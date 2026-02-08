@@ -2,12 +2,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { PatternCanvas } from '../components/PatternCanvas';
+import { useNavBar } from '../context/NavBarContext';
+
 interface HeroSectionProps {
   onStart: () => void;
 }
 export function HeroSection({ onStart }: HeroSectionProps) {
+  const { reactiveBar, navVisible } = useNavBar();
+  const topPadding = reactiveBar ? (navVisible ? 'pt-20' : 'pt-0') : 'pt-20';
   return (
-    <div className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-20">
+    <div className={`relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden ${topPadding} transition-[padding-top] duration-300 ease-out`}>
       {/* Background Art */}
       <div className="absolute inset-0 z-0 opacity-30">
         <PatternCanvas

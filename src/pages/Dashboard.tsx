@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { PatternCanvas } from '../components/PatternCanvas';
 import { MoreHorizontal } from 'lucide-react';
+import { useNavBar } from '../context/NavBarContext';
 
 type RiskFilter = 'all' | 'critical' | 'warning';
 
@@ -54,6 +55,8 @@ const MOCK_YOUTH = [
 
 export function Dashboard({ onSelectProfile }: DashboardProps) {
   const [riskFilter, setRiskFilter] = useState<RiskFilter>('all');
+  const { reactiveBar, navVisible } = useNavBar();
+  const topPadding = reactiveBar ? (navVisible ? 'pt-28' : 'pt-0') : 'pt-28';
 
   const filteredYouth = useMemo(() => {
     let list = MOCK_YOUTH;
@@ -63,7 +66,7 @@ export function Dashboard({ onSelectProfile }: DashboardProps) {
   }, [riskFilter]);
 
   return (
-    <div className="min-h-screen w-full pt-28 px-6 pb-12 bg-[#0A0A0A]">
+    <div className={`min-h-screen w-full ${topPadding} px-6 pb-12 bg-[#0A0A0A] transition-[padding-top] duration-300 ease-out`}>
       <div className="max-w-7xl mx-auto">
         <header className="flex items-end justify-between mb-12">
           <div>
