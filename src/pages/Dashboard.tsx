@@ -72,7 +72,9 @@ export function Dashboard({ onSelectProfile }: DashboardProps) {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {MOCK_YOUTH.map((youth, index) =>
+          {[...MOCK_YOUTH]
+            .sort((a, b) => b.risk - a.risk)
+            .map((youth, index) =>
           <motion.div
             key={youth.id}
             initial={{
