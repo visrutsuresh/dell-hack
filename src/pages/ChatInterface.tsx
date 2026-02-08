@@ -3,10 +3,18 @@ import { motion } from 'framer-motion';
 import { Send, Paperclip, MoreVertical, Phone } from 'lucide-react';
 import { PatternCanvas } from '../components/PatternCanvas';
 import { useNavBar } from '../context/NavBarContext';
+import { CONVERSATION_DATA } from '../data/conversationData';
 
-export function ChatInterface() {
+interface ChatInterfaceProps {
+  selectedYouthId: string;
+}
+
+export function ChatInterface({ selectedYouthId }: ChatInterfaceProps) {
   const { reactiveBar, navVisible } = useNavBar();
   const topPadding = reactiveBar ? (navVisible ? 'pt-20' : 'pt-0') : 'pt-20';
+  const conversation = CONVERSATION_DATA[selectedYouthId] ?? CONVERSATION_DATA['1'];
+  const { name, lastActive, currentState, currentStateDetail, suggestedApproach, messages, isTyping } =
+    conversation;
   return (
     <div className={`min-h-screen w-full ${topPadding} bg-[#0A0A0A] flex h-screen overflow-hidden transition-[padding-top] duration-300 ease-out`}>
       {/* Left Panel - Context & Pattern */}
@@ -22,8 +30,8 @@ export function ChatInterface() {
 
         <div className="relative z-10 p-8 flex-1 flex flex-col">
           <div className="mb-8">
-            <h2 className="text-3xl font-['Instrument_Serif'] mb-2">Alex M.</h2>
-            <p className="text-zinc-400 text-sm">Online • Last active 2m ago</p>
+            <h2 className="text-3xl font-['Instrument_Serif'] mb-2">{name}</h2>
+            <p className="text-zinc-400 text-sm">Online • Last active {lastActive}</p>
           </div>
 
           <div className="space-y-6">
@@ -31,9 +39,9 @@ export function ChatInterface() {
               <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">
                 Current State
               </h3>
-              <p className="text-teal-400 font-medium">Receptive</p>
+              <p className="text-teal-400 font-medium">{currentState}</p>
               <p className="text-sm text-zinc-400 mt-1">
-                Pattern indicates stabilization after recent spike.
+                {currentStateDetail}
               </p>
             </div>
 
@@ -42,8 +50,7 @@ export function ChatInterface() {
                 Suggested Approach
               </h3>
               <p className="text-sm text-zinc-300">
-                Validate feelings of isolation. Avoid direct confrontation about
-                sleep schedule.
+                {suggestedApproach}
               </p>
             </div>
           </div>
@@ -55,7 +62,7 @@ export function ChatInterface() {
         {/* Chat Header */}
         <header className="h-16 border-b border-white/10 flex items-center justify-between px-6">
           <div className="lg:hidden">
-            <h3 className="font-medium">Alex M.</h3>
+            <h3 className="font-medium">{name}</h3>
           </div>
           <div className="flex items-center gap-4 ml-auto">
             <button className="p-2 text-zinc-400 hover:text-white hover:bg-white/5 rounded-full transition-colors">
@@ -75,59 +82,54 @@ export function ChatInterface() {
             </span>
           </div>
 
-          <div className="flex gap-4 max-w-xl">
-            <div className="w-8 h-8 rounded-full bg-zinc-800 flex-shrink-0" />
-            <div className="space-y-1">
-              <div className="bg-zinc-800/50 rounded-2xl rounded-tl-none px-4 py-3 text-zinc-200">
-                I don't know why I'm even awake right now. It just feels like
-                everything is too loud.
-              </div>
-            </div>
-          </div>
-
-          <div className="flex gap-4 max-w-xl flex-row-reverse ml-auto">
-            <div className="w-8 h-8 rounded-full bg-teal-900/50 flex-shrink-0 flex items-center justify-center text-xs text-teal-200 border border-teal-500/30">
-              SW
-            </div>
-            <div className="space-y-1">
-              <div className="bg-teal-900/20 border border-teal-500/20 rounded-2xl rounded-tr-none px-4 py-3 text-teal-100">
-                It sounds like you're feeling really overwhelmed, Alex. "Loud"
-                is a heavy way to feel when it's quiet outside.
-              </div>
-            </div>
-          </div>
-
-          <div className="flex gap-4 max-w-xl">
-            <div className="w-8 h-8 rounded-full bg-zinc-800 flex-shrink-0" />
-            <div className="space-y-1">
-              <div className="bg-zinc-800/50 rounded-2xl rounded-tl-none px-4 py-3 text-zinc-200">
-                Yeah. Like static.
-              </div>
-              <div className="flex items-center gap-2 mt-1">
-                <div className="flex gap-0.5">
-                  <span
-                    className="w-1 h-1 bg-zinc-500 rounded-full animate-bounce"
-                    style={{
-                      animationDelay: '0ms'
-                    }} />
-
-                  <span
-                    className="w-1 h-1 bg-zinc-500 rounded-full animate-bounce"
-                    style={{
-                      animationDelay: '150ms'
-                    }} />
-
-                  <span
-                    className="w-1 h-1 bg-zinc-500 rounded-full animate-bounce"
-                    style={{
-                      animationDelay: '300ms'
-                    }} />
-
+          {messages.map((msg) =>
+            msg.sender === 'youth' ? (
+              <div key={msg.id} className="flex gap-4 max-w-xl">
+                <div className="w-8 h-8 rounded-full bg-zinc-800 flex-shrink-0" />
+                <div className="space-y-1">
+                  <div className="bg-zinc-800/50 rounded-2xl rounded-tl-none px-4 py-3 text-zinc-200">
+                    {msg.text}
+                  </div>
                 </div>
-                <span className="text-xs text-zinc-600">Alex is typing...</span>
+              </div>
+            ) : (
+              <div key={msg.id} className="flex gap-4 max-w-xl flex-row-reverse ml-auto">
+                <div className="w-8 h-8 rounded-full bg-teal-900/50 flex-shrink-0 flex items-center justify-center text-xs text-teal-200 border border-teal-500/30">
+                  SW
+                </div>
+                <div className="space-y-1">
+                  <div className="bg-teal-900/20 border border-teal-500/20 rounded-2xl rounded-tr-none px-4 py-3 text-teal-100">
+                    {msg.text}
+                  </div>
+                </div>
+              </div>
+            )
+          )}
+
+          {isTyping && (
+            <div className="flex gap-4 max-w-xl">
+              <div className="w-8 h-8 rounded-full bg-zinc-800 flex-shrink-0" />
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="flex gap-0.5">
+                    <span
+                      className="w-1 h-1 bg-zinc-500 rounded-full animate-bounce"
+                      style={{ animationDelay: '0ms' }}
+                    />
+                    <span
+                      className="w-1 h-1 bg-zinc-500 rounded-full animate-bounce"
+                      style={{ animationDelay: '150ms' }}
+                    />
+                    <span
+                      className="w-1 h-1 bg-zinc-500 rounded-full animate-bounce"
+                      style={{ animationDelay: '300ms' }}
+                    />
+                  </div>
+                  <span className="text-xs text-zinc-600">{name} is typing...</span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Input Area */}

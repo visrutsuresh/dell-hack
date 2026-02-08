@@ -46,7 +46,7 @@ export function App() {
 
 
       case 'chat':
-        return <ChatInterface />;
+        return <ChatInterface selectedYouthId={selectedYouthId ?? '1'} />;
       default:
         return <HeroSection onStart={() => setCurrentView('dashboard')} />;
     }
