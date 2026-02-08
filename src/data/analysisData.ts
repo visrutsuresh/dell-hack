@@ -1,0 +1,163 @@
+export interface YouthAnalysis {
+  id: string;
+  name: string;
+  status: 'critical' | 'warning' | 'stable';
+  risk: number;
+  profileId: string;
+  peakActivity: string;
+  peakActivitySuffix: string;
+  frequencySpike: string;
+  isolationIndex: string;
+  circadianWindow: string;
+  keywords: { text: string; className: string }[];
+  echoHomogeneity: string;
+  patternType: 'jagged' | 'mixed' | 'smooth';
+  patternColor: string;
+}
+
+export const ANALYSIS_DATA: Record<string, YouthAnalysis> = {
+  '1': {
+    id: '1',
+    name: 'Alex M.',
+    status: 'critical',
+    risk: 92,
+    profileId: '#8492-AC',
+    peakActivity: '2:42',
+    peakActivitySuffix: 'am',
+    frequencySpike: '+412',
+    isolationIndex: 'High',
+    circadianWindow: '3am - 5am',
+    keywords: [
+      { text: 'school', className: 'text-xs text-zinc-600' },
+      { text: 'tired', className: 'text-sm text-zinc-500' },
+      { text: 'alone', className: 'text-base text-zinc-300' },
+      { text: 'pointless', className: 'text-lg text-white font-medium' },
+      { text: 'tomorrow', className: 'text-xs text-zinc-600' },
+      { text: 'sleep', className: 'text-sm text-zinc-400' },
+      { text: 'friends', className: 'text-xs text-zinc-700' },
+    ],
+    echoHomogeneity: '94%',
+    patternType: 'jagged',
+    patternColor: '#F87171',
+  },
+  '2': {
+    id: '2',
+    name: 'Sarah K.',
+    status: 'warning',
+    risk: 68,
+    profileId: '#7291-SK',
+    peakActivity: '11:24',
+    peakActivitySuffix: 'pm',
+    frequencySpike: '+187',
+    isolationIndex: 'Moderate',
+    circadianWindow: '10pm - 2am',
+    keywords: [
+      { text: 'work', className: 'text-xs text-zinc-600' },
+      { text: 'anxious', className: 'text-sm text-zinc-500' },
+      { text: 'stress', className: 'text-base text-zinc-300' },
+      { text: 'overwhelmed', className: 'text-lg text-white font-medium' },
+      { text: 'deadline', className: 'text-xs text-zinc-600' },
+      { text: 'rest', className: 'text-sm text-zinc-400' },
+      { text: 'family', className: 'text-xs text-zinc-700' },
+    ],
+    echoHomogeneity: '72%',
+    patternType: 'mixed',
+    patternColor: '#F59E0B',
+  },
+  '3': {
+    id: '3',
+    name: 'Jordan T.',
+    status: 'stable',
+    risk: 12,
+    profileId: '#6180-JT',
+    peakActivity: '7:15',
+    peakActivitySuffix: 'pm',
+    frequencySpike: '-8',
+    isolationIndex: 'Low',
+    circadianWindow: '6pm - 9pm',
+    keywords: [
+      { text: 'exercise', className: 'text-xs text-zinc-600' },
+      { text: 'good', className: 'text-sm text-zinc-500' },
+      { text: 'weekend', className: 'text-base text-zinc-300' },
+      { text: 'plans', className: 'text-lg text-white font-medium' },
+      { text: 'study', className: 'text-xs text-zinc-600' },
+      { text: 'relaxed', className: 'text-sm text-zinc-400' },
+      { text: 'friends', className: 'text-xs text-zinc-700' },
+    ],
+    echoHomogeneity: '28%',
+    patternType: 'smooth',
+    patternColor: '#10B981',
+  },
+  '4': {
+    id: '4',
+    name: 'Casey L.',
+    status: 'stable',
+    risk: 24,
+    profileId: '#5309-CL',
+    peakActivity: '9:30',
+    peakActivitySuffix: 'am',
+    frequencySpike: '+22',
+    isolationIndex: 'Low',
+    circadianWindow: '8am - 12pm',
+    keywords: [
+      { text: 'class', className: 'text-xs text-zinc-600' },
+      { text: 'focused', className: 'text-sm text-zinc-500' },
+      { text: 'projects', className: 'text-base text-zinc-300' },
+      { text: 'motivated', className: 'text-lg text-white font-medium' },
+      { text: 'goals', className: 'text-xs text-zinc-600' },
+      { text: 'busy', className: 'text-sm text-zinc-400' },
+      { text: 'week', className: 'text-xs text-zinc-700' },
+    ],
+    echoHomogeneity: '41%',
+    patternType: 'smooth',
+    patternColor: '#10B981',
+  },
+  '5': {
+    id: '5',
+    name: 'Riley P.',
+    status: 'warning',
+    risk: 45,
+    profileId: '#4427-RP',
+    peakActivity: '1:18',
+    peakActivitySuffix: 'am',
+    frequencySpike: '+93',
+    isolationIndex: 'Moderate',
+    circadianWindow: '12am - 3am',
+    keywords: [
+      { text: 'gaming', className: 'text-xs text-zinc-600' },
+      { text: 'bored', className: 'text-sm text-zinc-500' },
+      { text: 'lonely', className: 'text-base text-zinc-300' },
+      { text: 'stuck', className: 'text-lg text-white font-medium' },
+      { text: 'routine', className: 'text-xs text-zinc-600' },
+      { text: 'escape', className: 'text-sm text-zinc-400' },
+      { text: 'online', className: 'text-xs text-zinc-700' },
+    ],
+    echoHomogeneity: '58%',
+    patternType: 'mixed',
+    patternColor: '#F59E0B',
+  },
+  '6': {
+    id: '6',
+    name: 'Jamie D.',
+    status: 'stable',
+    risk: 8,
+    profileId: '#3618-JD',
+    peakActivity: '6:45',
+    peakActivitySuffix: 'pm',
+    frequencySpike: '-12',
+    isolationIndex: 'Low',
+    circadianWindow: '5pm - 8pm',
+    keywords: [
+      { text: 'hobbies', className: 'text-xs text-zinc-600' },
+      { text: 'happy', className: 'text-sm text-zinc-500' },
+      { text: 'creative', className: 'text-base text-zinc-300' },
+      { text: 'engaged', className: 'text-lg text-white font-medium' },
+      { text: 'balance', className: 'text-xs text-zinc-600' },
+      { text: 'healthy', className: 'text-sm text-zinc-400' },
+      { text: 'social', className: 'text-xs text-zinc-700' },
+    ],
+    echoHomogeneity: '19%',
+    patternType: 'smooth',
+    patternColor: '#10B981',
+  },
+};

@@ -9,17 +9,29 @@ import { ChatInterface } from './pages/ChatInterface';
 type View = 'hero' | 'dashboard' | 'detail' | 'escalation' | 'chat';
 export function App() {
   const [currentView, setCurrentView] = useState<View>('hero');
+  const [selectedYouthId, setSelectedYouthId] = useState<string | null>(null);
+
   const renderView = () => {
     switch (currentView) {
       case 'hero':
         return <HeroSection onStart={() => setCurrentView('dashboard')} />;
       case 'dashboard':
-        return <Dashboard onSelectProfile={() => setCurrentView('detail')} />;
+        return (
+          <Dashboard
+            onSelectProfile={(id) => {
+              setSelectedYouthId(id);
+              setCurrentView('detail');
+            }}
+          />
+        );
       case 'detail':
         return (
           <DetailView
+            selectedYouthId={selectedYouthId ?? '1'}
             onBack={() => setCurrentView('dashboard')}
-            onEscalate={() => setCurrentView('escalation')} />);
+            onEscalate={() => setCurrentView('escalation')}
+          />
+        );
 
 
       case 'escalation':
