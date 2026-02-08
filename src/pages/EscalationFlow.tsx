@@ -7,11 +7,15 @@ import {
   UserCheck,
   FileText } from
 'lucide-react';
+import { ANALYSIS_DATA } from '../data/analysisData';
+
 interface EscalationFlowProps {
+  youthId: string;
   onComplete: () => void;
   onCancel: () => void;
 }
-export function EscalationFlow({ onComplete, onCancel }: EscalationFlowProps) {
+export function EscalationFlow({ youthId, onComplete, onCancel }: EscalationFlowProps) {
+  const analysis = ANALYSIS_DATA[youthId] ?? ANALYSIS_DATA['1'];
   const steps = [
   {
     id: 1,
@@ -23,7 +27,7 @@ export function EscalationFlow({ onComplete, onCancel }: EscalationFlowProps) {
   {
     id: 2,
     title: 'Risk Scoring',
-    desc: 'Calculated risk index: 92/100',
+    desc: `Calculated risk index: ${analysis.risk}/100`,
     icon: FileText,
     status: 'complete'
   },
@@ -49,7 +53,7 @@ export function EscalationFlow({ onComplete, onCancel }: EscalationFlowProps) {
           <h2 className="text-4xl font-['Instrument_Serif'] mb-4">
             Escalation Protocol
           </h2>
-          <p className="text-zinc-400">Case #8492-AC • Alex M.</p>
+          <p className="text-zinc-400">Case {analysis.profileId} • {analysis.name}</p>
         </div>
 
         <div className="relative">

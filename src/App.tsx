@@ -37,8 +37,11 @@ export function App() {
       case 'escalation':
         return (
           <EscalationFlow
+            youthId={selectedYouthId ?? '1'}
             onComplete={() => setCurrentView('chat')}
-            onCancel={() => setCurrentView('detail')} />);
+            onCancel={() => setCurrentView('detail')}
+          />
+        );
 
 
       case 'chat':

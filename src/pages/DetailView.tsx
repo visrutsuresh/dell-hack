@@ -8,7 +8,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { PatternCanvas } from '../components/PatternCanvas';
-import { ANALYSIS_DATA } from '../data/analysisData';
+import { ANALYSIS_DATA, type YouthAnalysis } from '../data/analysisData';
 
 interface DetailViewProps {
   selectedYouthId: string;
@@ -25,6 +25,31 @@ function getRiskBadgeClass(status: string) {
     default:
       return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/20';
   }
+}
+
+function downloadReport(analysis: YouthAnalysis, youthId: string) {
+  const report = {
+    exportedAt: new Date().toISOString(),
+    profileId: analysis.profileId,
+    name: analysis.name,
+    status: analysis.status,
+    risk: analysis.risk,
+    peakActivity: `${analysis.peakActivity}${analysis.peakActivitySuffix}`,
+    frequencySpike: analysis.frequencySpike,
+    isolationIndex: analysis.isolationIndex,
+    circadianWindow: analysis.circadianWindow,
+    echoHomogeneity: analysis.echoHomogeneity,
+    keywords: analysis.keywords.map((k) => k.text),
+  };
+  const blob = new Blob([JSON.stringify(report, null, 2)], {
+    type: 'application/json',
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `risk-report-${analysis.profileId.replace('#', '')}-${youthId}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 export function DetailView({ selectedYouthId, onBack, onEscalate }: DetailViewProps) {
@@ -48,7 +73,10 @@ export function DetailView({ selectedYouthId, onBack, onEscalate }: DetailViewPr
           </button>
 
           <div className="flex items-center gap-4">
-            <button className="px-4 py-2 text-sm text-zinc-400 hover:text-white transition-colors">
+            <button
+              onClick={() => downloadReport(analysis, selectedYouthId)}
+              className="px-4 py-2 text-sm text-zinc-400 hover:text-white transition-colors"
+            >
               Export Report
             </button>
             <button
