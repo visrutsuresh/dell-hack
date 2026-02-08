@@ -1,7 +1,10 @@
-import React from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { PatternCanvas } from '../components/PatternCanvas';
-import { AlertCircle, CheckCircle2, MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
+
+type RiskFilter = 'all' | 'critical' | 'warning';
+
 interface DashboardProps {
   onSelectProfile: (id: string) => void;
 }
@@ -50,6 +53,15 @@ const MOCK_YOUTH = [
 }];
 
 export function Dashboard({ onSelectProfile }: DashboardProps) {
+  const [riskFilter, setRiskFilter] = useState<RiskFilter>('all');
+
+  const filteredYouth = useMemo(() => {
+    let list = MOCK_YOUTH;
+    if (riskFilter === 'critical') list = list.filter((y) => y.status === 'critical');
+    else if (riskFilter === 'warning') list = list.filter((y) => y.status === 'warning');
+    return [...list].sort((a, b) => b.risk - a.risk);
+  }, [riskFilter]);
+
   return (
     <div className="min-h-screen w-full pt-28 px-6 pb-12 bg-[#0A0A0A]">
       <div className="max-w-7xl mx-auto">
@@ -63,18 +75,20 @@ export function Dashboard({ onSelectProfile }: DashboardProps) {
             </p>
           </div>
           <div className="flex gap-4">
-            <select className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-zinc-300 outline-none focus:border-white/30">
-              <option>All Risk Levels</option>
-              <option>Critical Only</option>
-              <option>Warning</option>
+            <select
+              value={riskFilter}
+              onChange={(e) => setRiskFilter(e.target.value as RiskFilter)}
+              className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-zinc-300 outline-none focus:border-white/30"
+            >
+              <option value="all">All Risk Levels</option>
+              <option value="critical">Critical Only</option>
+              <option value="warning">Warning</option>
             </select>
           </div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...MOCK_YOUTH]
-            .sort((a, b) => b.risk - a.risk)
-            .map((youth, index) =>
+          {filteredYouth.map((youth, index) =>
           <motion.div
             key={youth.id}
             initial={{
